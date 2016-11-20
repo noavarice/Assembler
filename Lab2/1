@@ -1,0 +1,35 @@
+.text
+#------------------------------
+#константы
+sys_read          =           3
+sys_write         =           4
+stdin             =           0
+stdout            =           1
+ascii_zero_code   =           48
+max_string_length =           10
+#-----------------------------
+#данные
+temp_str:         .string     ""
+you_are_right:    .string     "You are right!"
+.set              urr_len     .-you_are_right
+.globl                        main
+
+main:
+    #ввод строки
+    movl  $sys_read,          %eax
+    movl  $stdin,             %ebx
+    movl  $temp_str,          %ecx
+    movl  $max_string_length, %edx
+    int   $0x80
+    movb  temp_str,           %al
+    cmpb  $32,                %al
+    je    ur_right
+    ret
+
+ur_right:
+    movl  $sys_write,         %eax
+    movl  $stdout,            %ebx
+    movl  $you_are_right,     %ecx
+    movl  $urr_len,           %edx
+    int   $0x80
+    ret
